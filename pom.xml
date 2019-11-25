@@ -23,7 +23,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-        <!-- tag::dependency -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web-services</artifactId>
@@ -34,7 +33,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- end::dependency -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -49,7 +47,6 @@
         </dependency>
     </dependencies>
 
-    <!-- tag::profile -->
     <profiles>
         <profile>
             <id>java11</id>
@@ -65,7 +62,6 @@
             </dependencies>
         </profile>
     </profiles>
-    <!-- end::profile -->
 
     <build>
         <plugins>
@@ -73,7 +69,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <!-- tag::wsdl[] -->
             <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
@@ -85,19 +80,27 @@
                         </goals>
                     </execution>
                 </executions>
+<!--                <configuration>-->
+<!--                    <schemaLanguage>WSDL</schemaLanguage>-->
+<!--                    <generatePackage>com.example.consumingwebservice.wsdl</generatePackage>-->
+<!--                    <schemas>-->
+<!--                        <schema>-->
+<!--                            <url>http://localhost:8080/ws/countries.wsdl</url>-->
+<!--                        </schema>-->
+<!--                    </schemas>-->
+<!--                </configuration>-->
                 <configuration>
                     <schemaLanguage>WSDL</schemaLanguage>
                     <generatePackage>com.example.consumingwebservice.wsdl</generatePackage>
-                    <schemas>
-                        <schema>
-                            <url>http://localhost:8080/ws/countries.wsdl</url>
-                        </schema>
-                    </schemas>
+                    <schemaDirectory>src/main/resources</schemaDirectory>
+                    <schemaIncludes>
+                        <include>countries.wsdl</include>
+                    </schemaIncludes>
+                   <!-- <generateDirectory>${project.build.directory}/generated-sources/com.example.countries</generateDirectory>-->
                 </configuration>
 
 
             </plugin>
-            <!-- end::wsdl[] -->
         </plugins>
     </build>
 
