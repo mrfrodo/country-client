@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>consuming-web-service</artifactId>
+    <artifactId>country-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>consuming-web-service</name>
     <description>Demo project for Spring Boot</description>
@@ -44,6 +44,11 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
