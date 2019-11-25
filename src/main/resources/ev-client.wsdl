@@ -1,0 +1,1241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions name="SingleSignOn" targetNamespace="http://tempuri.org/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+                  xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex"
+                  xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy"
+                  xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract"
+                  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/"
+                  xmlns:wsa10="http://www.w3.org/2005/08/addressing"
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+                  xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+    <wsp:Policy wsu:Id="BasicHttpBinding_ISingleSignOn_policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:TransportToken>
+                            <wsp:Policy>
+                                <sp:HttpsToken RequireClientCertificate="false"/>
+                            </wsp:Policy>
+                        </sp:TransportToken>
+                        <sp:AlgorithmSuite>
+                            <wsp:Policy>
+                                <sp:Basic256/>
+                            </wsp:Policy>
+                        </sp:AlgorithmSuite>
+                        <sp:Layout>
+                            <wsp:Policy>
+                                <sp:Lax/>
+                            </wsp:Policy>
+                        </sp:Layout>
+                        <sp:IncludeTimestamp/>
+                    </wsp:Policy>
+                </sp:TransportBinding>
+                <sp:SignedSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:UsernameToken
+                                sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                            <wsp:Policy>
+                                <sp:WssUsernameToken10/>
+                            </wsp:Policy>
+                        </sp:UsernameToken>
+                    </wsp:Policy>
+                </sp:SignedSupportingTokens>
+                <sp:Wss10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy/>
+                </sp:Wss10>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+    <wsp:Policy wsu:Id="WSHttpBinding_ISingleSignOn_policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:TransportToken>
+                            <wsp:Policy>
+                                <sp:HttpsToken RequireClientCertificate="false"/>
+                            </wsp:Policy>
+                        </sp:TransportToken>
+                        <sp:AlgorithmSuite>
+                            <wsp:Policy>
+                                <sp:Basic256/>
+                            </wsp:Policy>
+                        </sp:AlgorithmSuite>
+                        <sp:Layout>
+                            <wsp:Policy>
+                                <sp:Strict/>
+                            </wsp:Policy>
+                        </sp:Layout>
+                        <sp:IncludeTimestamp/>
+                    </wsp:Policy>
+                </sp:TransportBinding>
+                <sp:SignedSupportingTokens xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:UsernameToken
+                                sp:IncludeToken="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy/IncludeToken/AlwaysToRecipient">
+                            <wsp:Policy>
+                                <sp:WssUsernameToken10/>
+                            </wsp:Policy>
+                        </sp:UsernameToken>
+                    </wsp:Policy>
+                </sp:SignedSupportingTokens>
+                <sp:Wss11 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy/>
+                </sp:Wss11>
+                <sp:Trust10 xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+                    <wsp:Policy>
+                        <sp:MustSupportIssuedTokens/>
+                        <sp:RequireClientEntropy/>
+                        <sp:RequireServerEntropy/>
+                    </wsp:Policy>
+                </sp:Trust10>
+                <wsaw:UsingAddressing/>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+    <wsdl:types>
+        <xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:import namespace="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+            <xs:import
+                    namespace="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO.SingleSignOn"/>
+            <xs:element name="ViewAppraisal">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="referenceNumber" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ViewAppraisalResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="ViewAppraisalResult" nillable="true"
+                                    type="q1:SingleSignOnObject"
+                                    xmlns:q1="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ViewAppraisalReport">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="referenceNumber" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ViewAppraisalReportResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="ViewAppraisalReportResult" nillable="true"
+                                    type="q2:SingleSignOnObject"
+                                    xmlns:q2="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ViewExtendedAppraisalReport">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="referenceNumber" nillable="true" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ViewExtendedAppraisalReportResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="ViewExtendedAppraisalReportResult" nillable="true"
+                                    type="q3:SingleSignOnObject"
+                                    xmlns:q3="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="AppraisalIndex">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="appraisalCustomerInput" nillable="true"
+                                    type="q4:AppraisalCustomerInput"
+                                    xmlns:q4="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="AppraisalIndexResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="AppraisalIndexResult" nillable="true"
+                                    type="q5:SingleSignOnObject"
+                                    xmlns:q5="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="StartAppraisalVitecNext">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="appraisalInputVitecNext" nillable="true"
+                                    type="q6:AppraisalInputVitecNext"
+                                    xmlns:q6="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO.SingleSignOn"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="StartAppraisalVitecNextResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="StartAppraisalVitecNextResult" nillable="true"
+                                    type="q7:SingleSignOnObject"
+                                    xmlns:q7="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="FrontPage">
+                <xs:complexType>
+                    <xs:sequence/>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="FrontPageResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="FrontPageResult" nillable="true" type="q8:SingleSignOnObject"
+                                    xmlns:q8="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RealEstateInfo">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="searchFilter" nillable="true" type="q9:RealEstateSearchFilter"
+                                    xmlns:q9="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="RealEstateInfoResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="RealEstateInfoResult" nillable="true"
+                                    type="q10:SingleSignOnObject"
+                                    xmlns:q10="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Estimate">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="searchFilter" nillable="true" type="q11:RealEstateSearchFilter"
+                                    xmlns:q11="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                        <xs:element minOccurs="0" name="estimateInput" nillable="true" type="q12:ClientEstimateInput"
+                                    xmlns:q12="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                        <xs:element minOccurs="0" name="automaticEstimate" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="EstimateResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="EstimateResult" nillable="true" type="q13:SingleSignOnObject"
+                                    xmlns:q13="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40SearchPage">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="filter" nillable="true" type="q14:Web40SearchPageFilter"
+                                    xmlns:q14="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40SearchPageResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="Web40SearchPageResult" nillable="true"
+                                    type="q15:SingleSignOnObject"
+                                    xmlns:q15="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40MapSearchPage">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="filter" nillable="true" type="q16:Web40SearchPageFilter"
+                                    xmlns:q16="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40MapSearchPageResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="Web40MapSearchPageResult" nillable="true"
+                                    type="q17:SingleSignOnObject"
+                                    xmlns:q17="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40MapGeoSearchPage">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="filter" nillable="true" type="q18:Web40GeoSearchPageFilter"
+                                    xmlns:q18="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40MapGeoSearchPageResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="Web40MapGeoSearchPageResult" nillable="true"
+                                    type="q19:SingleSignOnObject"
+                                    xmlns:q19="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40GetLoginUrl">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="filter" nillable="true" type="q20:Web40GetLoginUrlFilter"
+                                    xmlns:q20="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40GetLoginUrlResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="Web40GetLoginUrlResult" nillable="true"
+                                    type="q21:SingleSignOnObject"
+                                    xmlns:q21="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40RealEstateInfo">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="filter" nillable="true" type="q22:Web40RealEstateInfoFilter"
+                                    xmlns:q22="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40RealEstateInfoResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="Web40RealEstateInfoResult" nillable="true"
+                                    type="q23:SingleSignOnObject"
+                                    xmlns:q23="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40ValueAssistant">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="filter" nillable="true" type="q24:Web40ValueAssistantFilter"
+                                    xmlns:q24="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="Web40ValueAssistantResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="Web40ValueAssistantResult" nillable="true"
+                                    type="q25:SingleSignOnObject"
+                                    xmlns:q25="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified"
+                   targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/">
+            <xs:element name="anyType" nillable="true" type="xs:anyType"/>
+            <xs:element name="anyURI" nillable="true" type="xs:anyURI"/>
+            <xs:element name="base64Binary" nillable="true" type="xs:base64Binary"/>
+            <xs:element name="boolean" nillable="true" type="xs:boolean"/>
+            <xs:element name="byte" nillable="true" type="xs:byte"/>
+            <xs:element name="dateTime" nillable="true" type="xs:dateTime"/>
+            <xs:element name="decimal" nillable="true" type="xs:decimal"/>
+            <xs:element name="double" nillable="true" type="xs:double"/>
+            <xs:element name="float" nillable="true" type="xs:float"/>
+            <xs:element name="int" nillable="true" type="xs:int"/>
+            <xs:element name="long" nillable="true" type="xs:long"/>
+            <xs:element name="QName" nillable="true" type="xs:QName"/>
+            <xs:element name="short" nillable="true" type="xs:short"/>
+            <xs:element name="string" nillable="true" type="xs:string"/>
+            <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte"/>
+            <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt"/>
+            <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/>
+            <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort"/>
+            <xs:element name="char" nillable="true" type="tns:char"/>
+            <xs:simpleType name="char">
+                <xs:restriction base="xs:int"/>
+            </xs:simpleType>
+            <xs:element name="duration" nillable="true" type="tns:duration"/>
+            <xs:simpleType name="duration">
+                <xs:restriction base="xs:duration">
+                    <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/>
+                    <xs:minInclusive value="-P10675199DT2H48M5.4775808S"/>
+                    <xs:maxInclusive value="P10675199DT2H48M5.4775807S"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:element name="guid" nillable="true" type="tns:guid"/>
+            <xs:simpleType name="guid">
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:attribute name="FactoryType" type="xs:QName"/>
+            <xs:attribute name="Id" type="xs:ID"/>
+            <xs:attribute name="Ref" type="xs:IDREF"/>
+        </xs:schema>
+        <xs:schema elementFormDefault="qualified"
+                   targetNamespace="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns:tns="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO">
+            <xs:import
+                    namespace="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO.ObjectWrappers"/>
+            <xs:import namespace="http://schemas.datacontract.org/2004/07/EV.InformationServices.Enums"/>
+            <xs:complexType name="SingleSignOnObject">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:BaseDTO">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="LoginUrl" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="ReferenceCode" nillable="true" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+     <!--       <xs:element name="SingleSignOnObject" nillable="true" type="tns:SingleSignOnObject"/>-->
+            <xs:complexType name="BaseDTO">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Status" nillable="true" type="tns:EnumKeyDescriptionPair"/>
+                </xs:sequence>
+            </xs:complexType>
+        <!--    <xs:element name="BaseDTO" nillable="true" type="tns:BaseDTO"/>-->
+            <xs:complexType name="EnumKeyDescriptionPair">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Key" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+       <!--     <xs:element name="EnumKeyDescriptionPair" nillable="true" type="tns:EnumKeyDescriptionPair"/>-->
+            <xs:complexType name="AppraisalCustomerInput">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AgentOffice" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AgentOfficeExternalId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Bedrooms" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="BuildYear" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="Capital" nillable="true" type="xs:double"/>
+                    <xs:element minOccurs="0" name="Commondebt" nillable="true" type="xs:double"/>
+                    <xs:element minOccurs="0" name="ContractMailAddress" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ContractName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ContractPhoneNumber" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="EstateAgentMailAddress" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="EstateAgentName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="EstateAgentPhoneNumber" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="EstateType" nillable="true" type="q1:IntegerExtended"
+                                xmlns:q1="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO.ObjectWrappers"/>
+                    <xs:element minOccurs="0" name="ExternalReference" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ExternalSystem" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="FinancialContactMailAddress" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="FinancialContactName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="FinancialContactPhoneNumber" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Floor" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="GrossArea" nillable="true" type="xs:double"/>
+                    <xs:element minOccurs="0" name="InspectionDate" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="LivingArea" nillable="true" type="xs:double"/>
+                    <xs:element minOccurs="0" name="Ownership" nillable="true" type="q2:IntegerExtended"
+                                xmlns:q2="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO.ObjectWrappers"/>
+                    <xs:element minOccurs="0" name="Rent" nillable="true" type="xs:double"/>
+                    <xs:element minOccurs="0" name="SearchString" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SiteArea" nillable="true" type="xs:double"/>
+                    <xs:element minOccurs="0" name="SiteType" nillable="true" type="q3:IntegerExtended"
+                                xmlns:q3="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO.ObjectWrappers"/>
+                    <xs:element minOccurs="0" name="UsageArea" nillable="true" type="xs:double"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="AppraisalCustomerInput" nillable="true" type="tns:AppraisalCustomerInput"/>
+            <xs:complexType name="RealEstateSearchFilter">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AddressSearch" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="BNr" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="FNr" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="GNr" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="HousingCooperativeName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="HousingCooperativeSearch" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="KNr" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="OrgNumber" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="Postcode" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="PostcodeArea" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SNr" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="ShareNumber" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="StreetLetter" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="StreetName" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="StreetNumber" nillable="true" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+      <!--      <xs:element name="RealEstateSearchFilter" nillable="true" type="tns:RealEstateSearchFilter"/>-->
+            <xs:complexType name="ClientEstimateInput">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="BuildYear" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="Floor" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="GrossArea" nillable="true" type="xs:double"/>
+                    <xs:element minOccurs="0" name="LivingArea" nillable="true" type="xs:double"/>
+                    <xs:element minOccurs="0" name="Sale" nillable="true" type="tns:ClientEstimateInputSale"/>
+                    <xs:element minOccurs="0" name="UsageArea" nillable="true" type="xs:double"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="ClientEstimateInput" nillable="true" type="tns:ClientEstimateInput"/>
+            <xs:complexType name="ClientEstimateInputSale">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Commondebt" nillable="true" type="xs:double"/>
+                    <xs:element minOccurs="0" name="Date" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Price" type="xs:double"/>
+                    <xs:element minOccurs="0" name="SaleType" type="q4:SalesInfoType"
+                                xmlns:q4="http://schemas.datacontract.org/2004/07/EV.InformationServices.Enums"/>
+                </xs:sequence>
+            </xs:complexType>
+           <!-- <xs:element name="ClientEstimateInputSale" nillable="true" type="tns:ClientEstimateInputSale"/>-->
+            <xs:complexType name="Web40SearchPageFilter">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="SearchString" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+          <!--  <xs:element name="Web40SearchPageFilter" nillable="true" type="tns:Web40SearchPageFilter"/>-->
+            <xs:complexType name="Web40GeoSearchPageFilter">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Latitude" type="xs:double"/>
+                    <xs:element minOccurs="0" name="Longitude" type="xs:double"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="Web40GeoSearchPageFilter" nillable="true" type="tns:Web40GeoSearchPageFilter"/>
+            <xs:complexType name="Web40GetLoginUrlFilter">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="DisplayMode" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SearchString" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+        <!--    <xs:element name="Web40GetLoginUrlFilter" nillable="true" type="tns:Web40GetLoginUrlFilter"/>-->
+            <xs:complexType name="Web40RealEstateInfoFilter">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="SearchString" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+    <!--        <xs:element name="Web40RealEstateInfoFilter" nillable="true" type="tns:Web40RealEstateInfoFilter"/>-->
+            <xs:complexType name="Web40ValueAssistantFilter">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="SearchString" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+    <!--        <xs:element name="Web40ValueAssistantFilter" nillable="true" type="tns:Web40ValueAssistantFilter"/>-->
+        </xs:schema>
+        <xs:schema elementFormDefault="qualified"
+                   targetNamespace="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns:tns="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic">
+            <xs:complexType name="ApplicationFault">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="ApplicationFault" nillable="true" type="tns:ApplicationFault"/>
+        </xs:schema>
+        <xs:schema elementFormDefault="qualified"
+                   targetNamespace="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO.ObjectWrappers"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns:tns="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO.ObjectWrappers">
+            <xs:complexType name="IntegerExtended">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Value" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="IntegerExtended" nillable="true" type="tns:IntegerExtended"/>
+        </xs:schema>
+        <xs:schema elementFormDefault="qualified"
+                   targetNamespace="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO.SingleSignOn"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns:tns="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.DTO.SingleSignOn">
+            <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            <xs:complexType name="AppraisalInputVitecNext">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="EstateId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ImageIdList" nillable="true" type="q1:ArrayOfstring"
+                                xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+                    <xs:element minOccurs="0" name="InstallationId" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="AppraisalInputVitecNext" nillable="true" type="tns:AppraisalInputVitecNext"/>
+        </xs:schema>
+        <xs:schema elementFormDefault="qualified"
+                   targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+            <xs:complexType name="ArrayOfstring">
+                <xs:sequence>
+                    <xs:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="ArrayOfstring" nillable="true" type="tns:ArrayOfstring"/>
+        </xs:schema>
+        <xs:schema elementFormDefault="qualified"
+                   targetNamespace="http://schemas.datacontract.org/2004/07/EV.InformationServices.Enums"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns:tns="http://schemas.datacontract.org/2004/07/EV.InformationServices.Enums">
+            <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+            <xs:simpleType name="SalesInfoType">
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="UNKNOWN"/>
+                    <xs:enumeration value="REAL_SALESPRICE"/>
+                    <xs:enumeration value="VALUE_VALUATION">
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3
+                                </EnumerationValue>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="LOAN_VALUATION">
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4
+                                </EnumerationValue>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="ESTATEAGENT_VALUATION">
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2
+                                </EnumerationValue>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:enumeration>
+                    <xs:enumeration value="OWN_VALUATION"/>
+                    <xs:enumeration value="EV_VALUATION"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:element name="SalesInfoType" nillable="true" type="tns:SalesInfoType"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="ISingleSignOn_ViewAppraisal_InputMessage">
+        <wsdl:part name="parameters" element="tns:ViewAppraisal"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_ViewAppraisal_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ViewAppraisalResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_ViewAppraisal_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q1:ApplicationFault"
+                   xmlns:q1="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_ViewAppraisalReport_InputMessage">
+        <wsdl:part name="parameters" element="tns:ViewAppraisalReport"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_ViewAppraisalReport_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ViewAppraisalReportResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_ViewAppraisalReport_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q2:ApplicationFault"
+                   xmlns:q2="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_ViewExtendedAppraisalReport_InputMessage">
+        <wsdl:part name="parameters" element="tns:ViewExtendedAppraisalReport"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_ViewExtendedAppraisalReport_OutputMessage">
+        <wsdl:part name="parameters" element="tns:ViewExtendedAppraisalReportResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_ViewExtendedAppraisalReport_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q3:ApplicationFault"
+                   xmlns:q3="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_AppraisalIndex_InputMessage">
+        <wsdl:part name="parameters" element="tns:AppraisalIndex"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_AppraisalIndex_OutputMessage">
+        <wsdl:part name="parameters" element="tns:AppraisalIndexResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_AppraisalIndex_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q4:ApplicationFault"
+                   xmlns:q4="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_StartAppraisalVitecNext_InputMessage">
+        <wsdl:part name="parameters" element="tns:StartAppraisalVitecNext"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_StartAppraisalVitecNext_OutputMessage">
+        <wsdl:part name="parameters" element="tns:StartAppraisalVitecNextResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_StartAppraisalVitecNext_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q5:ApplicationFault"
+                   xmlns:q5="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_FrontPage_InputMessage">
+        <wsdl:part name="parameters" element="tns:FrontPage"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_FrontPage_OutputMessage">
+        <wsdl:part name="parameters" element="tns:FrontPageResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_FrontPage_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q6:ApplicationFault"
+                   xmlns:q6="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_RealEstateInfo_InputMessage">
+        <wsdl:part name="parameters" element="tns:RealEstateInfo"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_RealEstateInfo_OutputMessage">
+        <wsdl:part name="parameters" element="tns:RealEstateInfoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_RealEstateInfo_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q7:ApplicationFault"
+                   xmlns:q7="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Estimate_InputMessage">
+        <wsdl:part name="parameters" element="tns:Estimate"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Estimate_OutputMessage">
+        <wsdl:part name="parameters" element="tns:EstimateResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Estimate_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q8:ApplicationFault"
+                   xmlns:q8="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40SearchPage_InputMessage">
+        <wsdl:part name="parameters" element="tns:Web40SearchPage"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40SearchPage_OutputMessage">
+        <wsdl:part name="parameters" element="tns:Web40SearchPageResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40SearchPage_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q9:ApplicationFault"
+                   xmlns:q9="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40MapSearchPage_InputMessage">
+        <wsdl:part name="parameters" element="tns:Web40MapSearchPage"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40MapSearchPage_OutputMessage">
+        <wsdl:part name="parameters" element="tns:Web40MapSearchPageResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40MapSearchPage_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q10:ApplicationFault"
+                   xmlns:q10="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40MapGeoSearchPage_InputMessage">
+        <wsdl:part name="parameters" element="tns:Web40MapGeoSearchPage"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40MapGeoSearchPage_OutputMessage">
+        <wsdl:part name="parameters" element="tns:Web40MapGeoSearchPageResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40MapGeoSearchPage_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q11:ApplicationFault"
+                   xmlns:q11="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40GetLoginUrl_InputMessage">
+        <wsdl:part name="parameters" element="tns:Web40GetLoginUrl"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40GetLoginUrl_OutputMessage">
+        <wsdl:part name="parameters" element="tns:Web40GetLoginUrlResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40GetLoginUrl_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q12:ApplicationFault"
+                   xmlns:q12="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40RealEstateInfo_InputMessage">
+        <wsdl:part name="parameters" element="tns:Web40RealEstateInfo"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40RealEstateInfo_OutputMessage">
+        <wsdl:part name="parameters" element="tns:Web40RealEstateInfoResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40RealEstateInfo_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q13:ApplicationFault"
+                   xmlns:q13="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40ValueAssistant_InputMessage">
+        <wsdl:part name="parameters" element="tns:Web40ValueAssistant"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40ValueAssistant_OutputMessage">
+        <wsdl:part name="parameters" element="tns:Web40ValueAssistantResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ISingleSignOn_Web40ValueAssistant_ApplicationFaultFault_FaultMessage">
+        <wsdl:part name="detail" element="q14:ApplicationFault"
+                   xmlns:q14="http://schemas.datacontract.org/2004/07/EV.InformationServices.ExternalApi.ApplicationLogic"/>
+    </wsdl:message>
+    <wsdl:portType name="ISingleSignOn">
+        <wsdl:operation name="ViewAppraisal">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/ViewAppraisal"
+                        message="tns:ISingleSignOn_ViewAppraisal_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/ViewAppraisalResponse"
+                         message="tns:ISingleSignOn_ViewAppraisal_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/ViewAppraisalApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_ViewAppraisal_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ViewAppraisalReport">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/ViewAppraisalReport"
+                        message="tns:ISingleSignOn_ViewAppraisalReport_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/ViewAppraisalReportResponse"
+                         message="tns:ISingleSignOn_ViewAppraisalReport_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/ViewAppraisalReportApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_ViewAppraisalReport_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="ViewExtendedAppraisalReport">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/ViewExtendedAppraisalReport"
+                        message="tns:ISingleSignOn_ViewExtendedAppraisalReport_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/ViewExtendedAppraisalReportResponse"
+                         message="tns:ISingleSignOn_ViewExtendedAppraisalReport_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/ViewExtendedAppraisalReportApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_ViewExtendedAppraisalReport_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="AppraisalIndex">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/AppraisalIndex"
+                        message="tns:ISingleSignOn_AppraisalIndex_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/AppraisalIndexResponse"
+                         message="tns:ISingleSignOn_AppraisalIndex_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/AppraisalIndexApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_AppraisalIndex_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="StartAppraisalVitecNext">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/StartAppraisalVitecNext"
+                        message="tns:ISingleSignOn_StartAppraisalVitecNext_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/StartAppraisalVitecNextResponse"
+                         message="tns:ISingleSignOn_StartAppraisalVitecNext_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/StartAppraisalVitecNextApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_StartAppraisalVitecNext_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="FrontPage">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/FrontPage"
+                        message="tns:ISingleSignOn_FrontPage_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/FrontPageResponse"
+                         message="tns:ISingleSignOn_FrontPage_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/FrontPageApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_FrontPage_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="RealEstateInfo">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/RealEstateInfo"
+                        message="tns:ISingleSignOn_RealEstateInfo_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/RealEstateInfoResponse"
+                         message="tns:ISingleSignOn_RealEstateInfo_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/RealEstateInfoApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_RealEstateInfo_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="Estimate">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/Estimate"
+                        message="tns:ISingleSignOn_Estimate_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/EstimateResponse"
+                         message="tns:ISingleSignOn_Estimate_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/EstimateApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_Estimate_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="Web40SearchPage">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/Web40SearchPage"
+                        message="tns:ISingleSignOn_Web40SearchPage_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/Web40SearchPageResponse"
+                         message="tns:ISingleSignOn_Web40SearchPage_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/Web40SearchPageApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_Web40SearchPage_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="Web40MapSearchPage">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/Web40MapSearchPage"
+                        message="tns:ISingleSignOn_Web40MapSearchPage_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/Web40MapSearchPageResponse"
+                         message="tns:ISingleSignOn_Web40MapSearchPage_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/Web40MapSearchPageApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_Web40MapSearchPage_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="Web40MapGeoSearchPage">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/Web40MapGeoSearchPage"
+                        message="tns:ISingleSignOn_Web40MapGeoSearchPage_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/Web40MapGeoSearchPageResponse"
+                         message="tns:ISingleSignOn_Web40MapGeoSearchPage_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/Web40MapGeoSearchPageApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_Web40MapGeoSearchPage_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="Web40GetLoginUrl">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/Web40GetLoginUrl"
+                        message="tns:ISingleSignOn_Web40GetLoginUrl_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/Web40GetLoginUrlResponse"
+                         message="tns:ISingleSignOn_Web40GetLoginUrl_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/Web40GetLoginUrlApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_Web40GetLoginUrl_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="Web40RealEstateInfo">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/Web40RealEstateInfo"
+                        message="tns:ISingleSignOn_Web40RealEstateInfo_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/Web40RealEstateInfoResponse"
+                         message="tns:ISingleSignOn_Web40RealEstateInfo_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/Web40RealEstateInfoApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_Web40RealEstateInfo_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+        <wsdl:operation name="Web40ValueAssistant">
+            <wsdl:input wsaw:Action="http://tempuri.org/ISingleSignOn/Web40ValueAssistant"
+                        message="tns:ISingleSignOn_Web40ValueAssistant_InputMessage"/>
+            <wsdl:output wsaw:Action="http://tempuri.org/ISingleSignOn/Web40ValueAssistantResponse"
+                         message="tns:ISingleSignOn_Web40ValueAssistant_OutputMessage"/>
+            <wsdl:fault wsaw:Action="http://tempuri.org/ISingleSignOn/Web40ValueAssistantApplicationFaultFault"
+                        name="ApplicationFaultFault"
+                        message="tns:ISingleSignOn_Web40ValueAssistant_ApplicationFaultFault_FaultMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="BasicHttpBinding_ISingleSignOn" type="tns:ISingleSignOn">
+        <wsp:PolicyReference URI="#BasicHttpBinding_ISingleSignOn_policy"/>
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="ViewAppraisal">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/ViewAppraisal" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="ViewAppraisalReport">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/ViewAppraisalReport" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="ViewExtendedAppraisalReport">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/ViewExtendedAppraisalReport" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="AppraisalIndex">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/AppraisalIndex" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="StartAppraisalVitecNext">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/StartAppraisalVitecNext" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="FrontPage">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/FrontPage" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="RealEstateInfo">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/RealEstateInfo" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Estimate">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/Estimate" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40SearchPage">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/Web40SearchPage" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40MapSearchPage">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/Web40MapSearchPage" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40MapGeoSearchPage">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/Web40MapGeoSearchPage" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40GetLoginUrl">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/Web40GetLoginUrl" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40RealEstateInfo">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/Web40RealEstateInfo" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40ValueAssistant">
+            <soap:operation soapAction="http://tempuri.org/ISingleSignOn/Web40ValueAssistant" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="WSHttpBinding_ISingleSignOn" type="tns:ISingleSignOn">
+        <wsp:PolicyReference URI="#WSHttpBinding_ISingleSignOn_policy"/>
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="ViewAppraisal">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/ViewAppraisal" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="ViewAppraisalReport">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/ViewAppraisalReport" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="ViewExtendedAppraisalReport">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/ViewExtendedAppraisalReport"
+                              style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="AppraisalIndex">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/AppraisalIndex" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="StartAppraisalVitecNext">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/StartAppraisalVitecNext" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="FrontPage">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/FrontPage" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="RealEstateInfo">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/RealEstateInfo" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Estimate">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/Estimate" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40SearchPage">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/Web40SearchPage" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40MapSearchPage">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/Web40MapSearchPage" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40MapGeoSearchPage">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/Web40MapGeoSearchPage" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40GetLoginUrl">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/Web40GetLoginUrl" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40RealEstateInfo">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/Web40RealEstateInfo" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Web40ValueAssistant">
+            <soap12:operation soapAction="http://tempuri.org/ISingleSignOn/Web40ValueAssistant" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="ApplicationFaultFault">
+                <soap12:fault use="literal" name="ApplicationFaultFault" namespace=""/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="SingleSignOn">
+        <wsdl:port name="BasicHttpBinding_ISingleSignOn" binding="tns:BasicHttpBinding_ISingleSignOn">
+            <soap:address location="https://test-api.eiendomsverdi.no/SingleSignOn.svc/basic"/>
+        </wsdl:port>
+        <wsdl:port name="WSHttpBinding_ISingleSignOn" binding="tns:WSHttpBinding_ISingleSignOn">
+            <soap12:address location="https://test-api.eiendomsverdi.no/SingleSignOn.svc"/>
+            <wsa10:EndpointReference>
+                <wsa10:Address>https://test-api.eiendomsverdi.no/SingleSignOn.svc</wsa10:Address>
+            </wsa10:EndpointReference>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

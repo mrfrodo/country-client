@@ -95,11 +95,10 @@
                     <schemaDirectory>src/main/resources</schemaDirectory>
                     <schemaIncludes>
                         <include>countries.wsdl</include>
+                        <include>ev-client.wsdl</include>
                     </schemaIncludes>
                    <!-- <generateDirectory>${project.build.directory}/generated-sources/com.example.countries</generateDirectory>-->
                 </configuration>
-
-
             </plugin>
         </plugins>
     </build>
